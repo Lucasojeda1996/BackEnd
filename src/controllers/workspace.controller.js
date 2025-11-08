@@ -109,7 +109,7 @@ class WorkspaceController {
             //request.body es donde esta la carga util enviada por el cliente
             //si aplicamos express.json() en nuestra app body siempre sera de tipo objeto
             const name = request.body.name
-            const url_img = request.url_img
+            const url_img = request.body.url_img
             //Validar que name este y que sea valido (por ejemplo un string no VACIO de no mas de 30 caracteres)
             if (!name || typeof (name) !== 'string' || name.length > 30) {
                 throw new ServerError(

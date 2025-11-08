@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
         verified_email:{
             type:Boolean,
             required:true,
-            default:false,
+            default:true,
 
         },
         created_at: {
