@@ -27,7 +27,7 @@ class AuthService {
             html: `
                 <h1>Hola ${name}</h1>
                 <p>Verifica tu correo electrónico:</p>
-                <a href='http://localhost:8080/api/auth/verify-email/${verification_token}'>Verificar email</a>
+                <a href='${ENVIRONMENT.URL_API_BACKEND}/api/auth/verify-email/${verification_token}'>Verificar email</a>
             `
         });
 
