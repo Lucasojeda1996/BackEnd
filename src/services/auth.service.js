@@ -7,12 +7,12 @@ import ENVIRONMENT from "../config/environment.config.js";
 
 class AuthService {
     static async register(name, email, password) {
-           console.log("🌍 URL_API_BACKEND:", ENVIRONMENT.URL_API_BACKEND);
+         
         const user_found = await UserRepository.getByEmail(email);
         if (user_found) {
             throw new ServerError(400, 'Email ya en uso');
         }
-
+        
         const password_hashed = await bcrypt.hash(password, 12);
         const user_created = await UserRepository.createUser(name, email, password_hashed);
 
@@ -53,8 +53,10 @@ class AuthService {
         const user = await UserRepository.getByEmail(email);
         if (!user) {
             throw new ServerError(404, 'Email no registrado');
+        } 
+        if(user.verified_email=== false){
+            throw new ServerError (401, 'Email no verificado')
         }
-
         const is_same_password = await bcrypt.compare(password, user.password);
         if (!is_same_password) {
             throw new ServerError(401, 'Contraseña incorrecta');
