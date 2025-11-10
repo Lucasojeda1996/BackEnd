@@ -7,6 +7,7 @@ import ENVIRONMENT from "../config/environment.config.js";
 
 class AuthService {
     static async register(name, email, password) {
+           console.log("🌍 URL_API_BACKEND:", ENVIRONMENT.URL_API_BACKEND);
         const user_found = await UserRepository.getByEmail(email);
         if (user_found) {
             throw new ServerError(400, 'Email ya en uso');
