@@ -32,7 +32,7 @@ class AuthService {
             `
         });
 
-        return user_created;
+        
     }
 
     static async verifyEmail(verification_token) {
