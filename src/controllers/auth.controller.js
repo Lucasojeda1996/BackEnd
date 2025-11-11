@@ -63,10 +63,7 @@ class AuthController {
             const { verification_token } = req.params;
             await AuthService.verifyEmail(verification_token);
 
-            return res.status(200).json({
-                ok: true,
-                message: 'Correo verificado correctamente'
-            });
+         return res.redirect(`${process.env.URL_FRONTEND}/login?verified=true`);
 
         } catch (error) {
             console.log(error);
