@@ -77,6 +77,36 @@ class AuthController {
             });
         }
     }
+   static async sendRecoveryEmail(req, res) {
+        try {
+            const { email } = req.body;
+            const result = await AuthService.sendRecoveryEmail(email);
+            res.status(200).json({ ok: true, ...result });
+        } catch (error) {
+            console.log(error);
+            res.status(error.status || 500).json({
+                ok: false,
+                message: error.message || "Error al enviar correo de recuperación"
+            });
+        }
+    }
+
+    // Restablecer contraseña
+    static async resetPassword(req, res) {
+        try {
+            const { recovery_token } = req.params; // 👈 corregido aquí
+            const { new_password } = req.body;
+            const result = await AuthService.resetPassword(recovery_token, new_password);
+            res.status(200).json({ ok: true, ...result });
+        } catch (error) {
+            console.log(error);
+            res.status(error.status || 500).json({
+                ok: false,
+                message: error.message || "Error al restablecer la contraseña"
+            });
+        }
+    }
+
 }
 
 export default AuthController;

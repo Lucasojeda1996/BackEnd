@@ -71,6 +71,56 @@ class AuthService {
 
         return { authorization_token };
     }
+      // Enviar correo de recuperación
+    static async sendRecoveryEmail(email) {
+    const user = await UserRepository.getByEmail(email);
+    if (!user) throw new ServerError(404, "Email no registrado");
+
+    const recovery_token = jwt.sign(
+      { user_id: user._id, email },
+      ENVIRONMENT.JWT_SECRET_KEY,
+      { expiresIn: "15m" } // dura 15 minutos
+    );
+
+    await transporter.sendMail({
+      from: "lucaskappo22@gmail.com",
+      to: email,
+      subject: "Recuperación de cuenta",
+      html: `
+        <h1>Hola ${user.name}</h1>
+        <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+        <a href="${ENVIRONMENT.URL_API_BACKEND}/api/auth/reset-password/${recovery_token}">
+          Restablecer contraseña
+        </a>
+        <p>Este enlace expira en 15 minutos.</p>
+      `
+    });
+
+    return { message: "Correo de recuperación enviado" };
+  }
+  // Cambiar contraseña con token
+  static async resetPassword(recovery_token, new_password) {
+    try {
+      const payload = jwt.verify(recovery_token, ENVIRONMENT.JWT_SECRET_KEY);
+      const password_hashed = await bcrypt.hash(new_password, 12);
+
+      const user = await UserRepository.updateById(payload.user_id, {
+        password: password_hashed
+      });
+
+      if (!user) throw new ServerError(404, "Usuario no encontrado");
+
+      return { message: "Contraseña actualizada correctamente" };
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        throw new ServerError(400, "El enlace ha expirado");
+      }
+      if (error instanceof jwt.JsonWebTokenError) {
+        throw new ServerError(400, "Token inválido");
+      }
+      throw error;
+    }
+  }
 }
 
 export default AuthService;
