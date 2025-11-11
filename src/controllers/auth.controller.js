@@ -60,37 +60,22 @@ class AuthController {
 
     // Verificación de email
 
-static async verifyEmail(request, response) {
-    try{
-            const {verification_token} = request.params
-            await AuthService.verifyEmail(verification_token)
 
-            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?verified=true`);
-        } 
-        catch (error) {
-            console.log(error)
-            if (error.status) {
-                return response.status(error.status).json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            else {
-                return response.status(500).json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: 'Error interno del servidor'
-                    }
-                )
-            }
-        }
+   static async verifyEmail(request, response) {
+    try {
+        const { verification_token } = request.params;
+        await AuthService.verifyEmail(verification_token);
+
+        // 🔁 Redirige al frontend
+        return response.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?verified=true`);
+    } 
+    catch (error) {
+        console.log(error);
+
+        // Si el token no sirve, podrías redirigir al login con un mensaje de error:
+        return response.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?verified=false`);
     }
-
-
+}
     
    static async sendRecoveryEmail(req, res) {
         try {
