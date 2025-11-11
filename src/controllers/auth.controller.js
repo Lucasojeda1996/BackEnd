@@ -1,3 +1,4 @@
+import ENVIRONMENT from "../config/environment.config.js";
 import AuthService from "../services/auth.service.js";
 import { ServerError } from "../utils/customError.utils.js";
 
@@ -58,12 +59,16 @@ class AuthController {
     }
 
     // Verificación de email
-    static async verifyEmail(req, res) {
+  /* static async verifyEmail(req, res) {
         try {
             const { verification_token } = req.params;
             await AuthService.verifyEmail(verification_token);
 
-         return res.redirect(`${process.env.URL_FRONTEND}/login?verified=true`);
+          return response.json({
+                ok: true, 
+                status: 200,
+                message: 'Usuario validado'
+            })
 
         } catch (error) {
             console.log(error);
@@ -74,6 +79,44 @@ class AuthController {
             });
         }
     }
+
+*/
+static async verifyEmail(request, response) {
+    try{
+            const {verification_token} = request.params
+            await AuthService.verifyEmail(verification_token)
+
+            return response.json({
+                ok: true, 
+                status: 200,
+                message: 'Usuario validado'
+            })
+        } 
+        catch (error) {
+            console.log(error)
+            if (error.status) {
+                return response.status(error.status).json(
+                    {
+                        ok: false,
+                        status: error.status,
+                        message: error.message
+                    }
+                )
+            }
+            else {
+                return response.status(500).json(
+                    {
+                        ok: false,
+                        status: 500,
+                        message: 'Error interno del servidor'
+                    }
+                )
+            }
+        }
+    }
+
+
+    
    static async sendRecoveryEmail(req, res) {
         try {
             const { email } = req.body;

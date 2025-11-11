@@ -28,7 +28,8 @@ class AuthService {
             html: `
                 <h1>Hola ${name}</h1>
                 <p>Verifica tu correo electrónico:</p>
-                <a href='${ENVIRONMENT.URL_FRONTEND}/api/auth/verify-email/${verification_token}'>Verificar email</a>
+                <a href='${ENVIRONMENT.URL_API_BACKEND}/api/auth/verify-email/${verification_token}'>Verificar email</a>
+                <a href='${ENVIRONMENT.URL_FRONTEND}'>Login</a>
             `
                 
         });
@@ -36,19 +37,28 @@ class AuthService {
         
     }
 
-    static async verifyEmail(verification_token) {
-        try {
-            const payload = jwt.verify(verification_token, ENVIRONMENT.JWT_SECRET_KEY);
-            const user = await UserRepository.updateById(payload.user_id, { verified_email: true });
-            if (!user) throw new ServerError(404, 'Usuario no encontrado');
-            return true;
-        } catch (error) {
-            if (error instanceof jwt.JsonWebTokenError) {
-                throw new ServerError(400, 'Token inválido');
+     static async verifyEmail(verification_token){
+        try{
+            const payload = jwt.verify(verification_token, ENVIRONMENT.JWT_SECRET_KEY)
+
+            await UserRepository.updateById(
+                payload.user_id, 
+                {
+                    verified_email: true
+                }
+            )
+
+            return 
+
+        }
+        catch(error){
+            if(error instanceof jwt.JsonWebTokenError){
+                throw new  ServerError(400, 'Token invalido')
             }
-            throw error;
+            throw error
         }
     }
+
 
     static async login(email, password) {
         const user = await UserRepository.getByEmail(email);
