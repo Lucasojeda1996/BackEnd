@@ -59,38 +59,13 @@ class AuthController {
     }
 
     // Verificación de email
-  /* static async verifyEmail(req, res) {
-        try {
-            const { verification_token } = req.params;
-            await AuthService.verifyEmail(verification_token);
 
-          return response.json({
-                ok: true, 
-                status: 200,
-                message: 'Usuario validado'
-            })
-
-        } catch (error) {
-            console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                status: error.status || 500,
-                message: error.message || 'Error interno del servidor'
-            });
-        }
-    }
-
-*/
 static async verifyEmail(request, response) {
     try{
             const {verification_token} = request.params
             await AuthService.verifyEmail(verification_token)
 
-            return response.json({
-                ok: true, 
-                status: 200,
-                message: 'Usuario validado'
-            })
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?verified=true`);
         } 
         catch (error) {
             console.log(error)
