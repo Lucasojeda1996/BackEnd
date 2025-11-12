@@ -100,7 +100,7 @@ class AuthService {
       html: `
         <h1>Hola ${user.name}</h1>
         <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
-        <a href="${ENVIRONMENT.URL_FRONTEND}/api/auth/reset-password/${recovery_token}">
+        <a href="${ENVIRONMENT.URL_FRONTEND}/reset-password/${recovery_token}">
           Restablecer contraseña
         </a>
         <p>Este enlace expira en 15 minutos.</p>
