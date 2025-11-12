@@ -111,27 +111,31 @@ class AuthService {
   }
   // Cambiar contraseña con token
   static async resetPassword(recovery_token, new_password) {
-    try {
-      const payload = jwt.verify(recovery_token, ENVIRONMENT.JWT_SECRET_KEY);
-      const password_hashed = await bcrypt.hash(new_password, 12);
+  try {
+    const payload = jwt.verify(recovery_token, ENVIRONMENT.JWT_SECRET_KEY);
+    const password_hashed = await bcrypt.hash(new_password, 12);
 
-      const user = await UserRepository.updateById(payload.user_id, {
-        password: password_hashed
-      });
+    const user = await UserRepository.updateById(payload.user_id, {
+      password: password_hashed,
+    });
 
-      if (!user) throw new ServerError(404, "Usuario no encontrado");
+    if (!user) throw new ServerError(404, "Usuario no encontrado");
 
-      return { message: "Contraseña actualizada correctamente" };
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
-        throw new ServerError(400, "El enlace ha expirado");
-      }
-      if (error instanceof jwt.JsonWebTokenError) {
-        throw new ServerError(400, "Token inválido");
-      }
-      throw error;
+    return { message: "Contraseña actualizada correctamente" };
+  } catch (error) {
+    console.error("Error en resetPassword:", error);
+
+    if (error instanceof jwt.TokenExpiredError) {
+      throw new ServerError(400, "El enlace ha expirado");
     }
+    if (error instanceof jwt.JsonWebTokenError) {
+      throw new ServerError(400, "Token inválido");
+    }
+
+    throw new ServerError(500, "Error interno al restablecer contraseña");
   }
+}
+
 }
 
 export default AuthService;
