@@ -110,21 +110,26 @@ class AuthController {
     }
 
     // Restablecer contraseña
-    static async resetPassword(req, res) {
-        try {
-            const { recovery_token } = req.params; // 👈 corregido aquí
-            const { new_password } = req.body;
-            const result = await AuthService.resetPassword(recovery_token, new_password);
-            res.status(200).json({ ok: true, ...result });
-        } catch (error) {
-            console.log(error);
-            res.status(error.status || 500).json({
-                ok: false,
-                message: error.message || "Error al restablecer la contraseña"
-            });
-        }
-    }
+   static async resetPassword(req, res) {
+  try {
+    const { recovery_token } = req.params;
+    const { new_password } = req.body;
 
+    const result = await AuthService.resetPassword(recovery_token, new_password);
+
+    return res.status(200).json({
+      ok: true,
+      message: result.message
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(error.status || 500).json({
+      ok: false,
+      message: error.message || "Error al restablecer la contraseña"
+    });
+  }
+}
 }
 
 export default AuthController;
