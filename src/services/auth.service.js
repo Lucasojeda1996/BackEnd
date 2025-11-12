@@ -77,7 +77,8 @@ class AuthService {
             id: user._id,
             name: user.name,
             email: user.email,
-            created_at: user.created_at
+            created_at: user.created_at,
+            role:"user"
         }, ENVIRONMENT.JWT_SECRET_KEY, { expiresIn: '1d' });
 
         return { authorization_token };

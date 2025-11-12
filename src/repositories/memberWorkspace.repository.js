@@ -12,8 +12,8 @@ class MemberWorkspaceRepository {
         }) //Expandimos la propiedad de workspace, para que nos traiga el workspace completo
 
         console.log(workspaces_que_soy_miembro)
+        return workspaces_que_soy_miembro
     }
-
     static async getMemberWorkspaceByUserIdAndWorkspaceId(user_id, workspace_id){
         const member_workspace = await MemberWorkspace.findOne({user: user_id, workspace: workspace_id})
         return member_workspace
@@ -25,6 +25,34 @@ class MemberWorkspaceRepository {
         }
         await MemberWorkspace.insertOne({user: user_id, workspace: workspace_id, role: role})
     }
+    
+  /*  static async create(req, res) {
+    try {
+        const { name, url_image } = req.body;
+        const user_id = req.user.id; // viene del token JWT
+
+        // Crear el workspace
+        const workspace = await WorkspacesRepository.createWorkspace(name, url_image);
+
+        // Agregar al creador como miembro (rol admin)
+        await MemberWorkspaceRepository.create(user_id, workspace._id, 'admin');
+
+        return res.status(201).json({
+            ok: true,
+            message: 'Workspace creado correctamente',
+            workspace
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(error.status || 500).json({
+            ok: false,
+            message: error.message || 'Error al crear el workspace'
+        });
+    }
 }
+*/
+}
+//ACA MEDIANTE CREATE AGREGAMOS 2 PARAMETROS, 1 ID DE USUARIO, 1 ID DE REPOSITORI 
+
 
 export default MemberWorkspaceRepository
