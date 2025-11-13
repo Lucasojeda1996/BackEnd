@@ -34,7 +34,6 @@ class AuthController {
             });
         }
     }
-
     // Login
     static async login(req, res) {
         try {
@@ -57,9 +56,7 @@ class AuthController {
             });
         }
     }
-
     // Verificación de email
-
 
     static async verifyEmail(request, response) {
         try{
@@ -94,7 +91,7 @@ class AuthController {
             }
         }
     }
-    
+
    static async sendRecoveryEmail(req, res) {
         try {
             const { email } = req.body;
@@ -108,7 +105,6 @@ class AuthController {
             });
         }
     }
-
     // Restablecer contraseña
    static async resetPassword(req, res) {
   try {
