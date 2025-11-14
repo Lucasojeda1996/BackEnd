@@ -19,9 +19,6 @@ workspace_router.post('/',authMiddleware,WorkspaceController.post)
 
 //Crear los controladores para crear mensajes y obtener mensajes
 //Siempre que se cree o obtenga la lista el servidor debera responder con la lista de mensajes
-workspace_router.post(
-    '/:workspace_id/invite',
-    workspaceMiddleware(['admin']),
-    WorkspaceController.inviteMember
+workspace_router.post('/:workspace_id/invite',authMiddleware, workspaceMiddleware(['admin']),WorkspaceController.inviteMember
 )
 export default workspace_router
