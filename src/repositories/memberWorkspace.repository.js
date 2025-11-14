@@ -18,14 +18,23 @@ class MemberWorkspaceRepository {
         const member_workspace = await MemberWorkspace.findOne({user: user_id, workspace: workspace_id})
         return member_workspace
     }
-    static async create (user_id, workspace_id, role = 'member'){
-        const member = await MemberWorkspaceRepository.getMemberWorkspaceByUserIdAndWorkspaceId(user_id, workspace_id)
-        if(member){
-            throw new ServerError(400, 'El usuario ya es miembro del workspace')
-        }
-        await MemberWorkspace.insertOne({user: user_id, workspace: workspace_id, role: role})
+    static async create (user_id, workspace_id, role = 'member') {
+    const member = await MemberWorkspaceRepository.getMemberWorkspaceByUserIdAndWorkspaceId(
+        user_id,
+        workspace_id
+    );
+
+    if (member) {
+        throw new ServerError(400, 'El usuario ya es miembro del workspace');
     }
-    
+
+    // ✅ Usar create() permite que populate funcione
+    await MemberWorkspace.create({
+        user: user_id,
+        workspace: workspace_id,
+        role
+    });
+}
   /*  static async create(req, res) {
     try {
         const { name, url_image } = req.body;

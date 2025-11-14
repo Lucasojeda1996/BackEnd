@@ -107,7 +107,7 @@ class WorkspaceController {
             //request.body es donde esta la carga util enviada por el cliente
             //si aplicamos express.json() en nuestra app body siempre sera de tipo objeto
             const name = request.body.name
-            const url_img = request.body.url_img
+            const url_image = request.body.url_image
             //Validar que name este y que sea valido (por ejemplo un string no VACIO de no mas de 30 caracteres)
             if (!name || typeof (name) !== 'string' || name.length > 30) {
                 throw new ServerError(
@@ -115,7 +115,7 @@ class WorkspaceController {
                     "el campo 'name' debe ser un string de menos de 30 caracteres"
                 )
             }
-            else if (!url_img || typeof (url_img) !== 'string') {
+            else if (!url_image || typeof (url_image) !== 'string') {
                 throw new ServerError(
                     400,
                     "el campo 'url_img' debe ser un string de menos de 30 caracteres"
@@ -123,7 +123,7 @@ class WorkspaceController {
             }
             else {
                 //Creamos el workspace con el repository
-                const workspace_id_created=await WorkspacesRepository.createWorkspace(name, url_img)
+                const workspace_id_created=await WorkspacesRepository.createWorkspace(name, url_image)
                 if(!workspace_id_created){
                     throw new ServerError (500, 'Error al crear el workspace')
                 }
