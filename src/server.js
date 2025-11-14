@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 import cors from 'cors'
 import authMiddleware from "./middleware/auth.middleware.js"
 import MemberWorkspaceRepository from "./repositories/memberWorkspace.repository.js"
+import member_router from "./routes/member.router.js"
 
 connectMongoDB()
 const app = express()
@@ -18,13 +19,8 @@ app.use(express.json())
 app.use('/api/workspaces', workspace_router)
 app.use('/api/users', user_router)
 app.use('/api/auth', auth_router)
+app.use('/api/members', member_router)
 
-app.get('/ruta-protegida', authMiddleware, (request, response) => {
-    console.log(request.user)
-    response.send({
-        ok: true
-    })
-})
 
 app.listen(8080, () => {
     console.log("Esto está funcionando")

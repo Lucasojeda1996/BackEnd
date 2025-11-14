@@ -62,12 +62,7 @@ class AuthController {
         try{
             const {verification_token} = request.params
             await AuthService.verifyEmail(verification_token)
-
-            return response.json({
-                ok: true, 
-                status: 200,
-                message: 'Usuario validado, en el corrreo de valudacion tienes link a nuestra web, saludos'
-            })
+            return response.redirect(ENVIRONMENT.URL_FRONTEND + '/login')
         } 
         catch (error) {
             console.log(error)

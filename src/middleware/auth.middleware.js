@@ -20,6 +20,7 @@ const authMiddleware = (request, response, next) => {
 
         //guardamos los datos del token en la request, cosa de que otros controladores puedan acceder a quien es
         request.user = user_data
+        console.log(request.user + 'hola')
         next()
     }
     catch(error){

@@ -16,6 +16,7 @@ function workspaceMiddleware(valid_member_roles = []) {
             //HOT POINT
             //Reobtengo los datos de sesion (id, email del usuario consultante)
             const user = request.user
+            console.log(user)
             const { workspace_id } = request.params
        
             //Checkear que el workspace exista

@@ -13,7 +13,7 @@ workspace_router.get('/',authMiddleware,WorkspaceController.getAll)
 
 // Obtener workspace por ID
 //
-workspace_router.get('/:workspace_id', authMiddleware, workspaceMiddleware(), WorkspaceController.getById)
+workspace_router.get('/:workspace_id', authMiddleware , WorkspaceController.getById)
 // Crear workspace
 workspace_router.post('/',authMiddleware,WorkspaceController.post)
 
