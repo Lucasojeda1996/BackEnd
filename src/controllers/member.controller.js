@@ -14,7 +14,7 @@ class MemberController {
                 id_inviter
             } = jwt.verify(token, ENVIRONMENT.JWT_SECRET_KEY)
 
-            await MemberWorkspaceRepository.create(id_invited, id_workspace, 'user')
+            await MemberWorkspaceRepository.create(id_invited, id_workspace, 'member')
 
             /* 
             El usuario viene via mail a este endpoint 

@@ -25,7 +25,8 @@ function workspaceMiddleware(valid_member_roles = []) {
                 throw new ServerError(404, 'Workspace no encontrado')
             }
             //Checkear que el usuario sea MIEMBRO de workspace
-            const member_user_data = await MemberWorkspaceRepository.getMemberWorkspaceByUserIdAndWorkspaceId(user._id, workspace_id)
+            const member_user_data = await MemberWorkspaceRepository
+    .getMemberWorkspaceByUserIdAndWorkspaceId(user.id, workspace_id)
             if (!member_user_data) {
                 throw new ServerError(403, 'No tienes permiso para realizar esta operacion')
             }

@@ -1,9 +1,12 @@
 //Las funciones que se encargaran de manejar la consulta y la respuesta
+import ENVIRONMENT from '../config/environment.config.js'
 import MemberWorkspaceRepository from "../repositories/memberWorkspace.repository.js"
 import WorkspacesRepository from "../repositories/workspace.repository.js"
 import { ServerError } from "../utils/customError.utils.js"
 import { validarId } from "../utils/validations.utils.js"
-
+import UserRepository from "../repositories/user.repository.js"
+import jwt from 'jsonwebtoken'
+import transporter from "../config/mailer.config.js"
 class WorkspaceController {
      static async getAll(request, response) {
         try {
@@ -193,8 +196,10 @@ class WorkspaceController {
                     to: invited_email,
                     subject: 'Invitacion al workspace',
                     html: `<h1>El usuario: ${user.email} te ha enviado una invitación
-                            al workspace ${workspace.nombre}<h1/>
-                            <a href='${ENVIRONMENT.URL_API_BACKEND}/api/members/confirm-invitation/${invite_token}'> Click para aceptar<a/>`
+                            al workspace ${workspace.name}<h1/>
+                        <a href="${ENVIRONMENT.URL_API_BACKEND}/api/members/confirm-invitation/${invite_token}">
+                         Click para aceptar
+                        </a>`
                 }
             )
             response.status(200).json({
