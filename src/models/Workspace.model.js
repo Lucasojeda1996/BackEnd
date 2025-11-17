@@ -9,7 +9,7 @@ const workspaceSchema = new mongoose.Schema(
         },
         url_image: {
             type: String,
-            required: true
+            required: false
         },
         modified_at: {
             type: Date,
