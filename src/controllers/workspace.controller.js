@@ -115,8 +115,9 @@ class WorkspaceController {
                     "el campo 'name' debe ser un string de menos de 30 caracteres"
                 )
             }
-            else if (typeof url_image !== 'string') {
-              throw new ServerError(   400,   "el campo 'url_image' debe ser un string de menos de 30 caracteres"  ) }
+            else if (url_image && typeof url_image !== 'string') {
+                 throw new ServerError(400, "el campo 'url_image' debe ser un string");
+}
             else {
                 //Creamos el workspace con el repository
                 const workspace_id_created=await WorkspacesRepository.createWorkspace(name, url_image)
