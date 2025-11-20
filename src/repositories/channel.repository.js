@@ -19,6 +19,10 @@ class ChannelRepository {
     static async getById(channel_id) {
         return await Channels.findById(channel_id);
     }
+static async getAllByWorkspaceAndName(workspace_id, name) {
+        return await Channels.findOne({ workspace_id, name });
+    }
+
 }
 
 export default ChannelRepository;

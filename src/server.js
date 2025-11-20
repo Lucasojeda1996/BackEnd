@@ -10,6 +10,7 @@ import authMiddleware from "./middleware/auth.middleware.js"
 import MemberWorkspaceRepository from "./repositories/memberWorkspace.repository.js"
 import member_router from "./routes/member.router.js"
 
+
 connectMongoDB()
 const app = express()
 
