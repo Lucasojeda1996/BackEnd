@@ -23,5 +23,5 @@ const MemberWorkspaceSchema = new mongoose.Schema(
         }
     }
 );
-const MemberWorkspace = mongoose.model('Members', MemberWorkspaceSchema);
+const MemberWorkspace = mongoose.model('Member', MemberWorkspaceSchema);
 export default MemberWorkspace;
