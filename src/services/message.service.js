@@ -1,14 +1,28 @@
 import ChannelMessageRepository from "../repositories/channelMessage.repository.js";
 
 class MessageService {
+
     static async create(content, member_id, channel_id) {
-        const message_id = await ChannelMessageRepository.create(content, channel_id, member_id)
-        const new_list = await ChannelMessageRepository.getAllByChannelId(channel_id)
-        return new_list
+
+        // 1. Crear mensaje
+        await ChannelMessageRepository.create({
+            content,
+            member_id,
+            channel_id
+        });
+
+        // 2. Devolver lista completa actualizada
+        const messages_list = await ChannelMessageRepository.getAllByChannel(channel_id);
+
+        return messages_list;
     }
+
+
     static async getAllByChannelId(channel_id) {
-        return await ChannelMessageRepository.getAllByChannelId(channel_id)
+        const messages_list = await ChannelMessageRepository.getAllByChannel(channel_id);
+        return messages_list;
     }
+
 }
 
-export default MessageService
+export default MessageService;
